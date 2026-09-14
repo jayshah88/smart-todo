@@ -7,6 +7,7 @@
 Laravel 12 + React 18 · priorities, due dates, streaks, recurrence, reminders, and a calm focus view — production-ready and fully responsive.
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+[![CI](https://github.com/jayshah88/smart-todo/actions/workflows/ci.yml/badge.svg)](https://github.com/jayshah88/smart-todo/actions/workflows/ci.yml)
 ![Laravel 12](https://img.shields.io/badge/Laravel-12-red?logo=laravel)
 ![React 18](https://img.shields.io/badge/React-18-blue?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript)
