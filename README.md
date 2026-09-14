@@ -42,7 +42,7 @@ Most to-do lists are passive: you file tasks and hope you remember them. FocusLi
 | Settings (dark) | Mobile tasks |
 | ![Settings dark](docs/screenshots/08-settings-dark.png) | ![Mobile tasks](docs/screenshots/09-tasks-mobile.png) |
 
-> More in [docs/screenshots](docs/screenshots/): [dashboard dark](docs/screenshots/11-dashboard-dark.png), [task editor](docs/screenshots/05-task-editor.png), [notifications](docs/screenshots/06-notifications.png), [settings](docs/screenshots/07-settings.png), [mobile dashboard](docs/screenshots/10-dashboard-mobile.png).
+> More in [docs/screenshots](docs/screenshots/): [dashboard dark](docs/screenshots/11-dashboard-dark.png), [task editor](docs/screenshots/05-task-editor.png), [notifications](docs/screenshots/06-notifications.png), [settings](docs/screenshots/07-settings.png), [mobile dashboard](docs/screenshots/10-dashboard-mobile.png), [mobile menu](docs/screenshots/10-dashboard-mobile-menu.png).
 
 ## Live demo
 

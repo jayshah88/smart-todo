@@ -7,3 +7,13 @@
     @apply antialiased bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
   }
 }
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

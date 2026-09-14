@@ -497,7 +497,7 @@ export default function Tasks() {
 
             <ViewTabs view={view} onSetView={(v) => setSearchParams(v === 'all' ? {} : { view: v })} />
 
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
               <input
                 ref={searchRef}
                 value={searchInput}
@@ -506,35 +506,40 @@ export default function Tasks() {
                 aria-label="Search tasks"
                 className={`${inputClasses} w-full sm:w-56`}
               />
-              <select
-                value={priorityFilter}
-                onChange={(e) => setPriorityFilter(e.target.value)}
-                aria-label="Filter by priority"
-                className={inputClasses}
-              >
-                <option value="">All priorities</option>
-                <option value="urgent">Urgent</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-              </select>
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value as typeof sort)}
-                aria-label="Sort tasks"
-                className={inputClasses}
-              >
-                <option value="created_at">Recently added</option>
-                <option value="due_date">Due date</option>
-                <option value="priority">Priority</option>
-              </select>
-              <button
-                onClick={() => setOrder((o) => (o === 'desc' ? 'asc' : 'desc'))}
-                aria-label={`Sort ${order === 'desc' ? 'ascending' : 'descending'}`}
-                className="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
-              >
-                {order === 'desc' ? '↓ Desc' : '↑ Asc'}
-              </button>
+              <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2 sm:flex sm:items-center">
+                <select
+                  value={priorityFilter}
+                  onChange={(e) => setPriorityFilter(e.target.value)}
+                  aria-label="Filter by priority"
+                  className={`${inputClasses} min-w-0 w-full sm:w-auto`}
+                >
+                  <option value="">All priorities</option>
+                  <option value="urgent">Urgent</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as typeof sort)}
+                  aria-label="Sort tasks"
+                  className={`${inputClasses} min-w-0 w-full sm:w-auto`}
+                >
+                  <option value="created_at">Recently added</option>
+                  <option value="due_date">Due date</option>
+                  <option value="priority">Priority</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => setOrder((o) => (o === 'desc' ? 'asc' : 'desc'))}
+                  aria-label={`Sort ${order === 'desc' ? 'ascending' : 'descending'}`}
+                  title={order === 'desc' ? 'Sort descending' : 'Sort ascending'}
+                  className="flex flex-none items-center justify-center rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  <span>{order === 'desc' ? '↓' : '↑'}</span>
+                  <span className="hidden sm:inline sm:ml-1">{order === 'desc' ? 'Desc' : 'Asc'}</span>
+                </button>
+              </div>
             </div>
 
             {selectedIds.size > 0 && (
@@ -711,16 +716,20 @@ export default function Tasks() {
 
 function ViewTabs({ view, onSetView }: { view: string; onSetView: (v: string) => void }) {
   return (
-    <div className="mt-6 flex flex-wrap gap-1" role="tablist" aria-label="Task views">
+    <div
+      className="mt-6 flex items-center gap-1.5 overflow-x-auto pb-1.5 pt-0.5 no-scrollbar sm:flex-wrap sm:overflow-visible"
+      role="tablist"
+      aria-label="Task views"
+    >
       {VIEWS.map(([value, label]) => (
         <button
           key={value}
           role="tab"
           aria-selected={view === value}
           onClick={() => onSetView(value)}
-          className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 ${
+          className={`flex-none rounded-full px-3.5 py-1.5 text-xs font-medium transition sm:text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 ${
             view === value
-              ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
+              ? 'bg-slate-900 text-white shadow-sm dark:bg-slate-100 dark:text-slate-900'
               : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
           }`}
         >

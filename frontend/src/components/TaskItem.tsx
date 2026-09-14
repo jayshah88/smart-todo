@@ -103,110 +103,113 @@ export default function TaskItem({
         e.preventDefault();
         onDrop?.(task);
       }}
-      className={`group flex items-start gap-3 rounded-xl border p-4 transition ${
+      className={`group flex flex-col sm:flex-row sm:items-start gap-3 rounded-xl border p-4 transition ${
         overdue
           ? 'border-red-200 bg-red-50/50 dark:border-red-800 dark:bg-red-950/40'
           : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900'
       } ${busy ? 'opacity-50' : ''} ${selected ? 'ring-2 ring-indigo-500' : ''}`}
     >
-      {selectable && (
-        <input
-          type="checkbox"
-          checked={selected ?? false}
-          onChange={() => onToggleSelect?.(task)}
-          aria-label={`Select ${task.title}`}
-          className="mt-1 h-4 w-4 flex-none accent-indigo-600"
-        />
-      )}
-
-      <button
-        onClick={() => (isCompleted ? onReopen(task) : onComplete(task))}
-        aria-label={isCompleted ? `Reopen ${task.title}` : `Complete ${task.title}`}
-        className={`mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full border-2 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500 ${
-          isCompleted ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-slate-300 hover:border-emerald-500'
-        }`}
-      >
-        {isCompleted && (
-          <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M2 6l3 3 5-6" />
-          </svg>
+      <div className="flex items-start gap-3 min-w-0 flex-1 w-full">
+        {selectable && (
+          <input
+            type="checkbox"
+            checked={selected ?? false}
+            onChange={() => onToggleSelect?.(task)}
+            aria-label={`Select ${task.title}`}
+            className="mt-1 h-4 w-4 flex-none accent-indigo-600"
+          />
         )}
-      </button>
 
-      <div className="min-w-0 flex-1">
-        <p
-          className={`break-words text-sm font-medium ${
-            isCompleted ? 'text-slate-400 line-through dark:text-slate-500' : 'text-slate-900 dark:text-slate-100'
+        <button
+          onClick={() => (isCompleted ? onReopen(task) : onComplete(task))}
+          aria-label={isCompleted ? `Reopen ${task.title}` : `Complete ${task.title}`}
+          className={`mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full border-2 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500 ${
+            isCompleted ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-slate-300 hover:border-emerald-500 dark:border-slate-600'
           }`}
         >
-          {task.title}
-        </p>
-        {task.description && (
-          <p className="mt-0.5 line-clamp-2 break-words text-sm text-slate-500 dark:text-slate-400">
-            {task.description}
+          {isCompleted && (
+            <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M2 6l3 3 5-6" />
+            </svg>
+          )}
+        </button>
+
+        <div className="min-w-0 flex-1">
+          <p
+            className={`break-words text-sm font-medium ${
+              isCompleted ? 'text-slate-400 line-through dark:text-slate-500' : 'text-slate-900 dark:text-slate-100'
+            }`}
+          >
+            {task.title}
           </p>
-        )}
+          {task.description && (
+            <p className="mt-0.5 line-clamp-2 break-words text-sm text-slate-500 dark:text-slate-400">
+              {task.description}
+            </p>
+          )}
 
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          <span className={`rounded-full px-2 py-0.5 text-xs font-medium capitalize ${PRIORITY_STYLES[task.priority]}`}>
-            {task.priority}
-          </span>
-          {task.dueDate && (
-            <span
-              className={`text-xs ${
-                overdue ? 'font-medium text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'
-              }`}
-            >
-              {overdue ? 'Overdue · ' : ''}
-              {friendlyDate(task.dueDate)}
-              {task.dueTime ? ` · ${task.dueTime}` : ''}
+          <div className="mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span className={`rounded-full px-2 py-0.5 text-xs font-medium capitalize ${PRIORITY_STYLES[task.priority]}`}>
+              {task.priority}
             </span>
-          )}
-          {task.recurrence && (
-            <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700 dark:bg-violet-950 dark:text-violet-300">
-              ↻ {task.recurrence.frequency}
-              {task.recurrence.nextOccurrence ? ` · next ${task.recurrence.nextOccurrence}` : ''}
-            </span>
-          )}
-          {task.reminderMinutesBefore != null && (
-            <span className="text-xs text-slate-500 dark:text-slate-400">
-              🔔 {task.reminderMinutesBefore >= 60 ? `${Math.round(task.reminderMinutesBefore / 60)}h before` : `${task.reminderMinutesBefore}m before`}
-            </span>
-          )}
-          {task.project && (
-            <span
-              className="rounded-full px-2 py-0.5 text-xs font-medium text-white"
-              style={{ backgroundColor: task.project.color }}
-            >
-              {task.project.name}
-            </span>
-          )}
-          {(task.tags ?? []).map((tag) => (
-            <span
-              key={tag.id}
-              className="rounded-full px-2 py-0.5 text-xs font-medium text-white"
-              style={{ backgroundColor: tag.color }}
-            >
-              {tag.name}
-            </span>
-          ))}
-        </div>
-
-        {progress && !isCompleted && (
-          <div className="mt-2 flex items-center gap-2">
-            <div className="h-1.5 w-28 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-              <div
-                className="h-full rounded-full bg-indigo-500 transition-all"
-                style={{ width: `${Math.round((progress.completed / progress.total) * 100)}%` }}
-              />
-            </div>
-            <span className="text-xs text-slate-500 dark:text-slate-400">
-              {progress.completed}/{progress.total} subtasks
-            </span>
+            {task.dueDate && (
+              <span
+                className={`text-xs ${
+                  overdue ? 'font-medium text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'
+                }`}
+              >
+                {overdue ? 'Overdue · ' : ''}
+                {friendlyDate(task.dueDate)}
+                {task.dueTime ? ` · ${task.dueTime}` : ''}
+              </span>
+            )}
+            {task.recurrence && (
+              <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700 dark:bg-violet-950 dark:text-violet-300">
+                ↻ {task.recurrence.frequency}
+                {task.recurrence.nextOccurrence ? ` · next ${task.recurrence.nextOccurrence}` : ''}
+              </span>
+            )}
+            {task.reminderMinutesBefore != null && (
+              <span className="text-xs text-slate-500 dark:text-slate-400">
+                🔔 {task.reminderMinutesBefore >= 60 ? `${Math.round(task.reminderMinutesBefore / 60)}h before` : `${task.reminderMinutesBefore}m before`}
+              </span>
+            )}
+            {task.project && (
+              <span
+                className="rounded-full px-2 py-0.5 text-xs font-medium text-white"
+                style={{ backgroundColor: task.project.color }}
+              >
+                {task.project.name}
+              </span>
+            )}
+            {(task.tags ?? []).map((tag) => (
+              <span
+                key={tag.id}
+                className="rounded-full px-2 py-0.5 text-xs font-medium text-white"
+                style={{ backgroundColor: tag.color }}
+              >
+                {tag.name}
+              </span>
+            ))}
           </div>
-        )}
+
+          {progress && !isCompleted && (
+            <div className="mt-2 flex items-center gap-2">
+              <div className="h-1.5 w-28 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                <div
+                  className="h-full rounded-full bg-indigo-500 transition-all"
+                  style={{ width: `${Math.round((progress.completed / progress.total) * 100)}%` }}
+                />
+              </div>
+              <span className="text-xs text-slate-500 dark:text-slate-400">
+                {progress.completed}/{progress.total} subtasks
+              </span>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="mt-2 flex w-full flex-wrap items-center gap-0.5 sm:mt-0 sm:w-auto sm:flex-none sm:justify-end">
+
+      <div className="flex w-full flex-wrap items-center justify-end gap-1 border-t border-slate-100 pt-2.5 sm:w-auto sm:border-0 sm:pt-0 sm:mt-0 sm:flex-none dark:border-slate-800/80">
         {onToggleFavorite && (
           <button
             type="button"
