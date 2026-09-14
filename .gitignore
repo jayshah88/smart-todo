@@ -1,0 +1,48 @@
+# ---- Dependencies ----
+node_modules/
+**/node_modules/
+vendor/
+**/vendor/
+
+# ---- Environment & secrets ----
+**/.env
+**/.env.*
+!**/.env.example
+**/.env.production
+**/.env.backup
+
+# ---- Local databases & logs ----
+**/*.sqlite
+**/*.sqlite-journal
+**/*.log
+
+# ---- Cache / build output ----
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+backend/.phpunit.result.cache
+backend/.phpunit.cache
+backend/storage/*.key
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/pail/
+backend/public/build/
+backend/public/hot/
+backend/public/storage/
+
+# ---- Agent / tooling artifacts (not part of the public project) ----
+.agents/
+.pulse-memory/
+.venv-headroom/
+.playwright-cli/
+.agent_profile/
+skills-lock.json
+tmp/
+
+# ---- OS & editors ----
+**/.DS_Store
+**/Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
